@@ -30,7 +30,7 @@ export class SalasService {
       query.data_inicio = { $gte: new Date(filters.data_inicio) };
     }
     if (filters.data_expiracao) {
-      query.data_expiracao = { $lte: new Date(filters.data_expiracao) };
+      query.data_inicio = { $lte: new Date(filters.data_expiracao) };
     }
 
     if (filters.nome) {
