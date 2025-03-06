@@ -26,11 +26,14 @@ export class SalasService {
   }): Promise<Sala[]> {
     const query: any = {};
 
-    if (filters.data_inicio) {
-      query.data_inicio = { $gte: new Date(filters.data_inicio) };
-    }
-    if (filters.data_expiracao) {
-      query.data_inicio = { $lte: new Date(filters.data_expiracao) };
+    if (filters.data_inicio || filters.data_expiracao) {
+      query.data_inicio = {};
+      if (filters.data_inicio) {
+        query.data_inicio.$gte = new Date(filters.data_inicio);
+      }
+      if (filters.data_expiracao) {
+        query.data_inicio.$lte = new Date(filters.data_expiracao);
+      }
     }
 
     if (filters.nome) {
