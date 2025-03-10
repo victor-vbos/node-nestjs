@@ -3,6 +3,7 @@ import { SalasService } from './salas.service';
 import { CreateSalaDto } from './dto/create-sala.dto';
 import { UpdateSalaDto } from './dto/update-sala.dto';
 import { FilterEventsDto } from './dto/filter-sala.dto';
+import { Sala } from './schemas/sala.schema';
 
 @Controller('salas')
 export class SalasController {
@@ -14,7 +15,7 @@ export class SalasController {
   }
 
   @Get()
-  findAll(@Query() filters: FilterEventsDto) {
+  async findAll(@Query() filters: FilterEventsDto): Promise<Sala[]> {
     return this.salasService.findAll(filters);
   }
 

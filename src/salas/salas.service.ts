@@ -57,7 +57,7 @@ export class SalasService {
       query.is_mentoria = filters.is_mentoria;
     }
 
-    return await this.salaModel.find(query).exec();
+    return this.salaModel.find(query).exec();
   }
 
   async findOne(id: string) {
