@@ -1,9 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { ConsoleLogger, LogLevel } from '@nestjs/common';
+
+const factoryOptions = {
+  logger: new ConsoleLogger({
+    json: process.env.NODE_ENV !== 'local',    
+  })  
+}
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, factoryOptions);
 
   const config = new DocumentBuilder()
     .setTitle('Salas particulares')

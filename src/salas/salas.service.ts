@@ -57,7 +57,7 @@ export class SalasService {
       query.is_mentoria = filters.is_mentoria;
     }
 
-    return this.salaModel.find(query).exec();
+    return await this.salaModel.find(query).exec();
   }
 
   async findOne(id: string) {
@@ -85,3 +85,4 @@ export class SalasService {
     return { message: 'Sala deleted successfully' };
   }
 }
+

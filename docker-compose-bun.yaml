@@ -1,0 +1,42 @@
+services:
+  nestjs-api:
+    container_name: nestjs-api  
+    command: bun run start:dev
+    build:
+      context: .
+      dockerfile: Dockerfile.bun
+    volumes:
+      - .:/app
+      # - .:/app
+      # - ./node_modules:/app/node_modules  # Prevents host node_modules from overwriting container node_modules
+    ports:
+      - 3001:3000
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27018:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  # master:
+  #   image: locustio/locust
+  #   ports:
+  #     - "8090:8089"
+  #   volumes:  
+  #     - ./:/mnt/locust
+  #   command: -f /mnt/locust/locustfile.py --master -H http://nestjs-api:3000
+  #   depends_on:
+  #     - nestjs-api
+
+  # worker:
+  #   image: locustio/locust
+  #   volumes:
+  #     - ./:/mnt/locust
+  #   command: -f /mnt/locust/locustfile.py --worker --master-host master
+  #   depends_on:
+  #     - master

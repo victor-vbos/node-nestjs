@@ -394,7 +394,12 @@ Temporary Items
 
 =======
 # Local
-.env
 dist
 .webpack
 .serverless/**/*.zip
+/node_modules
+
+# IDE
+/.idea
+/.awcache
+/.vscode

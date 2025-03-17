@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, InternalServerErrorException } from '@nestjs/common';
 import { SalasService } from './salas.service';
 import { CreateSalaDto } from './dto/create-sala.dto';
 import { UpdateSalaDto } from './dto/update-sala.dto';
@@ -10,7 +10,7 @@ export class SalasController {
   constructor(private readonly salasService: SalasService) {}
 
   @Post()
-  create(@Body() createSalaDto: CreateSalaDto) {
+  async create(@Body() createSalaDto: CreateSalaDto) {
     return this.salasService.create(createSalaDto);
   }
 
@@ -18,6 +18,7 @@ export class SalasController {
   async findAll(@Query() filters: FilterEventsDto): Promise<Sala[]> {
     return this.salasService.findAll(filters);
   }
+  
 
   @Get(':id')
   findOne(@Param('id') id: string) {
