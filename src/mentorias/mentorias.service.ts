@@ -4,6 +4,7 @@ import { Model, Types } from 'mongoose';
 import { Mentoria, MentoriaDocument } from './schemas/mentoria.schema';
 import { CreateMentoriaDto } from './dto/create-mentoria.dto';
 import { UpdateMentoriaDto } from './dto/update-mentoria.dto';
+import { DuplicateMentoriaDto } from './dto/duplicate-mentoria.dto';
 
 @Injectable()
 export class MentoriasService {
@@ -12,13 +13,23 @@ export class MentoriasService {
     private readonly mentoriaModel: Model<MentoriaDocument>,
   ) {}
 
-  async create(createMentoriaDto: CreateMentoriaDto): Promise<Mentoria> {
-    const salasObjectIds = createMentoriaDto.salas.map((id) => new Types.ObjectId(id));
-    const createdMentoria = new this.mentoriaModel({
-      ...createMentoriaDto,
-      salas: salasObjectIds,
-    });
-    return createdMentoria.save();
+  async create(createMentoriaDto: CreateMentoriaDto): Promise<Mentoria> {  
+    const createdMentoria = new this.mentoriaModel(createMentoriaDto)
+    return createdMentoria.save()
+  }
+
+  async duplicate(duplicateMentoriaDto: DuplicateMentoriaDto) {
+    const mentoria = await this.mentoriaModel.findById(duplicateMentoriaDto.id).exec()
+    if (!mentoria) {
+      throw new NotFoundException(`Mentoria with id ${duplicateMentoriaDto.id} not found`)
+    }
+
+    const copyMentoria = mentoria.toObject()
+
+    delete copyMentoria._id
+
+    const createdMentoria = new this.mentoriaModel(copyMentoria)
+    return createdMentoria.save()
   }
 
   async findAll(): Promise<Mentoria[]> {
@@ -33,10 +44,7 @@ export class MentoriasService {
     return mentoria;
   }
 
-  async update(id: string, updateMentoriaDto: UpdateMentoriaDto): Promise<Mentoria> {
-    if (updateMentoriaDto.salas) {
-      updateMentoriaDto.salas = updateMentoriaDto.salas.map((salaId) => new Types.ObjectId(salaId));
-    }
+  async update(id: string, updateMentoriaDto: UpdateMentoriaDto): Promise<Mentoria> {    
     const updatedMentoria = await this.mentoriaModel.findByIdAndUpdate(id, updateMentoriaDto, {
       new: true,
     }).exec();

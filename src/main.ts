@@ -12,6 +12,10 @@ const factoryOptions = {
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, factoryOptions);
 
+  if (process.env.NODE_ENV === 'local') {
+    app.enableCors();
+  }
+
   const config = new DocumentBuilder()
     .setTitle('Salas particulares')
     .setDescription('Api para gerenciar salas particulares e mentorias')

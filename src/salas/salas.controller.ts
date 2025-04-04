@@ -4,18 +4,28 @@ import { CreateSalaDto } from './dto/create-sala.dto';
 import { UpdateSalaDto } from './dto/update-sala.dto';
 import { FilterEventsDto } from './dto/filter-sala.dto';
 import { Sala } from './schemas/sala.schema';
+import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
+import { SalaDto } from './dto/sala.dto';
 
 @Controller('salas')
 export class SalasController {
   constructor(private readonly salasService: SalasService) {}
 
   @Post()
+  @ApiCreatedResponse({
+    description: 'Sala created successfully',
+    type: CreateSalaDto
+  })
   async create(@Body() createSalaDto: CreateSalaDto) {
     return this.salasService.create(createSalaDto);
   }
 
   @Get()
-  async findAll(@Query() filters: FilterEventsDto): Promise<Sala[]> {
+  @ApiOkResponse({
+    description: 'Find salas',
+    type: [SalaDto]
+  })
+  async findAll(@Query() filters: FilterEventsDto): Promise<SalaDto[]> {
     return this.salasService.findAll(filters);
   }
   
@@ -27,6 +37,7 @@ export class SalasController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSalaDto: UpdateSalaDto) {
+    console.log(updateSalaDto)
     return this.salasService.update(id, updateSalaDto);
   }
 

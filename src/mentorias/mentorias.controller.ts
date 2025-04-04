@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { MentoriasService } from './mentorias.service';
 import { CreateMentoriaDto } from './dto/create-mentoria.dto';
 import { UpdateMentoriaDto } from './dto/update-mentoria.dto';
+import { DuplicateMentoriaDto } from './dto/duplicate-mentoria.dto';
 
 @Controller('mentorias')
 export class MentoriasController {
@@ -10,6 +11,11 @@ export class MentoriasController {
   @Post()
   create(@Body() createMentoriaDto: CreateMentoriaDto) {
     return this.mentoriasService.create(createMentoriaDto);
+  }
+  
+  @Post('/duplicate')
+  duplicate(@Body() duplicateMentoriaDto: DuplicateMentoriaDto) {
+    return this.mentoriasService.duplicate(duplicateMentoriaDto);
   }
 
   @Get()
