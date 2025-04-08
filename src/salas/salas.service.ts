@@ -24,7 +24,7 @@ export class SalasService {
     coach?: string;
     ativo?: boolean;
     is_mentoria?: boolean;
-  }): Promise<SalaDto[]> {
+  }): Promise<Sala[]> {
     const query: any = {};
 
     if (filters.data_inicio || filters.data_expiracao) {

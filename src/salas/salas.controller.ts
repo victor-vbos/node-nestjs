@@ -3,9 +3,9 @@ import { SalasService } from './salas.service';
 import { CreateSalaDto } from './dto/create-sala.dto';
 import { UpdateSalaDto } from './dto/update-sala.dto';
 import { FilterEventsDto } from './dto/filter-sala.dto';
-import { Sala } from './schemas/sala.schema';
 import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { SalaDto } from './dto/sala.dto';
+import { Sala } from './schemas/sala.schema';
 
 @Controller('salas')
 export class SalasController {
@@ -25,17 +25,25 @@ export class SalasController {
     description: 'Find salas',
     type: [SalaDto]
   })
-  async findAll(@Query() filters: FilterEventsDto): Promise<SalaDto[]> {
+  async findAll(@Query() filters: FilterEventsDto): Promise<Sala[]> {
     return this.salasService.findAll(filters);
   }
   
 
   @Get(':id')
+  @ApiOkResponse({
+    description: 'Find sala',
+    type: SalaDto
+  })
   findOne(@Param('id') id: string) {
     return this.salasService.findOne(id);
   }
 
   @Patch(':id')
+  @ApiOkResponse({
+    description: 'Sala updated successfully',
+    type: SalaDto,
+  })
   update(@Param('id') id: string, @Body() updateSalaDto: UpdateSalaDto) {
     console.log(updateSalaDto)
     return this.salasService.update(id, updateSalaDto);

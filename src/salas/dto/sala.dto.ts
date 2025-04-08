@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { CoachDto, ProfessorDto } from './professor-coach.dto';
 
 export class SalaDto {
   @ApiProperty({ example: 'sdasdsad', description: 'id of the sala' })
@@ -28,11 +29,11 @@ export class SalaDto {
   @ApiProperty({ example: '2025-02-24T09:00:00Z', description: 'Last update timestamp' })
   atualizado_em: string;
 
-  @ApiProperty({ example: [{id: 101, nome: 'Professor teste'}, {id: 102, nome: 'Professor teste 2'}], description: 'Array of professor' })
-  professores: Array<any>;
+  @ApiProperty({ example: [{id: 101, nome: 'Professor teste'}, {id: 102, nome: 'Professor teste 2'}], description: 'Array of professor', type: ProfessorDto, isArray: true })
+  professores: ProfessorDto[];
 
-  @ApiProperty({ example: [{id: 101, nome: 'Coach teste'}, {id: 102, nome: 'Coach teste 2'}], description: 'Array of coach' })
-  coaches: Array<any>;
+  @ApiProperty({ example: [{id: 101, nome: 'Coach teste'}, {id: 102, nome: 'Coach teste 2'}], description: 'Array of coach', type: CoachDto,  isArray: true })
+  coaches: CoachDto[];
 
   @ApiProperty({ example: 'https://example.com/event-1', description: 'URL associated with the event' })
   url: string;
